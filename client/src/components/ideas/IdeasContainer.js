@@ -40,6 +40,16 @@ class IdeasContainer extends Component {
     this.setState({editingIdeaId: id})
   }
 
+  deleteIdea = (id) => {
+    axios.delete(`/api/v1/ideas/${id}`)
+    .then(response => {
+      const ideaIndex = this.state.ideas.findIndex(x => x.id === id)
+      const ideas = update(this.state.ideas, { $splice: [[ideaIndex, 1]]})
+      this.setState({ideas: ideas})
+    })
+    .catch(error => console.log(error))
+  }
+
   resetNotification = () => {
     this.setState({notification: ''})
   }
@@ -82,7 +92,8 @@ class IdeasContainer extends Component {
                 resetNotification={this.resetNotification} />)
             } else {
               return(<Idea idea={idea} key={idea.id}
-                onClick={this.enableEditing} />)
+                onClick={this.enableEditing}
+                onDelete={this.deleteIdea} />)
             }
           })}
         </div>

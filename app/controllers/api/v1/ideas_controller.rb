@@ -10,6 +10,15 @@ module Api::V1
       render json: @idea
     end
 
+    def destroy
+      @idea = Idea.find(params[:id])
+      if @idea.destroy
+        head :no_content, status: :ok
+      else
+        render json: @ideas.errors, status: :unprocessable_entity
+      end
+    end
+
     def update
       @idea = Idea.find(params[:id])
       @idea.update_attributes(idea_params)
