@@ -13,7 +13,7 @@ class IdeaForm extends Component {
   handleBlur = () => {
     const idea = {
       title: this.state.title,
-      body: this.state.body
+      body: this.state.body,
     }
 
     axios.put(
@@ -23,10 +23,12 @@ class IdeaForm extends Component {
       }
     ).then(response => {
       console.log(response)
+      this.props.updateIdea(response.data)
     }).catch(error => console.log(error))
   }
 
   handleInput = (e) => {
+    this.props.resetNotification()
     this.setState({[e.target.name]: e.target.value})
   }
 
